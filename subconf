@@ -1,0 +1,53 @@
+#!/bin/bash
+
+domain=$1
+subdomain=$2
+test=$3
+url="/var/www/vhost/$domain/subdomains/$subdomain"
+#echo "domain is $domain"
+#echo "subdomain is $subdomain"
+#echo "$url"
+
+#check if the directory exists
+function check
+{
+ if [ ! -d $url ]
+   then
+     echo "that domain or path does not exist"
+ exit 1
+ else
+
+       echo "an update or creation of $url/vhost.conf will now be done: do you want to continue"
+        read answer
+
+fi
+}
+
+function phpconf
+{
+
+        read -r -d num echo "enter the number of the php configuration that you would like to add
+        1: this is number 1
+        2: this is number 2
+        3: this is the third one"
+
+        $
+}
+
+## this function will update the create of update the vhost file  
+function changeconf
+{
+ echo "noe updating php configuration" 
+# touch "$url/vhost.conf" && echo "this is a test" >> "$url/vhost.conf" 
+touch "$url/vhost.conf" && echo "$test" > "$url/vhost.conf" 
+}
+
+check
+echo $?
+
+phpconf
+
+if [ "$?" == 0 ]
+then
+        changeconf
+fi
