@@ -1,5 +1,4 @@
 #!/bin/bash
-
 domain=$1
 subdomain=$2
 test=$3
@@ -12,42 +11,56 @@ url="/var/www/vhost/$domain/subdomains/$subdomain"
 function check
 {
  if [ ! -d $url ]
-   then
-     echo "that domain or path does not exist"
- exit 1
+    then
+       echo "that domain or path does not exist"
+       exit 1
  else
+       echo "an update or creation of $url/vhost.conf will now be done: do you want to continue: y/n"
+	read answer
 
-       echo "an update or creation of $url/vhost.conf will now be done: do you want to continue"
-        read answer
+		if [ $answer = 'y' ]
+		then
 
-fi
+			return
+		else
+			exit
+		fi
+	return
+ fi
 }
 
-function phpconf
-{
 
-        read -r -d num echo "enter the number of the php configuration that you would like to add
+
+#what config number would you like
+function getconf
+{
+        echo "enter the number of the php configuration that you would like to add
         1: this is number 1
         2: this is number 2
         3: this is the third one"
+	read conf
 
-        $
+	return $conf
 }
 
-## this function will update the create of update the vhost file  
+
+## this function will update the create of update the vhost file
 function changeconf
 {
- echo "noe updating php configuration" 
-# touch "$url/vhost.conf" && echo "this is a test" >> "$url/vhost.conf" 
-touch "$url/vhost.conf" && echo "$test" > "$url/vhost.conf" 
+ 	echo "now updating php configuration"
+	# touch "$url/vhost.conf" && echo "this is a test" >> "$url/vhost.conf"
+	touch "$url/vhost.conf" && echo "This is the contents of the /var/www/vhost/example.com/subdomains/mail/vhost.conf file" > "$url/vhost.conf"
+	#less "$url/vhost.conf"
 }
 
+
+
 check
-echo $?
 
-phpconf
+getconf
+echo "return is" $conf
 
-if [ "$?" == 0 ]
-then
-        changeconf
-fi
+echo "$url/vhost.conf"
+changeconf $conf
+
+cat /var/www/vhost/example.com/subdomains/mail/vhost.conf
